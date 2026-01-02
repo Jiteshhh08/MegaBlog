@@ -3,7 +3,7 @@ import conf from './conf/conf';
 
 function App() {
 
-  console.log(conf.appwriteDatabase);
+  // console.log(conf.appwriteUrl);
   
 
   return (
