@@ -1,3 +1,4 @@
+import { use } from "react";
 import conf from "../conf/conf";
 
 import { Client, Account, ID } from "appwrite";
@@ -23,13 +24,18 @@ export class AuthService {
         name
       });
 
-      if (userAccount) {
+      this.logout();
 
-      return this.login({email,password})        
+      return userAccount
+      // if (userAccount) {
 
-      } else {
-        return userAccount;
-      }
+      // return this.login(email,password)        
+
+      // } else {
+      //   return userAccount;
+      // }
+
+  
     } catch (error) {
       throw error;
     }
@@ -48,7 +54,7 @@ export class AuthService {
 
   async getCurrentUser() {
     try {
-      return account.get();
+      return this.account.get();
     } catch (error) {
       console.log("Appwrite service :: getCurrentUser :: error", error);
     }
