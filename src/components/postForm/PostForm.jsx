@@ -4,32 +4,32 @@ import { Button, Input, Select, RTE } from "../index";
 import service from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { ID } from "appwrite";
+// import { ID } from "../../appwrite/config";
 
 function PostForm({ post }) {
   const { register, handleSubmit, setValue, getValues, watch, control } =
     useForm({
       defaultValues: {
         title: post?.title || "",
-        ID: post?.ID || "",
+        slug: post?.$id || "",
         content: post?.content || "",
         status: post?.status || "active",
       },
     });
   const navigate = useNavigate();
-  const userData = useSelector((state) => state.user.userData);
+  const userData = useSelector((state) => state.auth.userData);
 
   const submit = async (data) => {
     if (post) {
       const file = data.image[0]
-        ? await appwriteService.uploadFile(data.image[0])
+        ? await service.uploadFile(data.image[0])
         : null;
 
       if (file) {
         appwriteService.deleteFile(post.featuredImage);
       }
 
-      const dbPost = await appwriteService.updatePost(post.$id, {
+      const dbPost = await service.updatePost(post.$id, {
         ...data,
         featuredImage: file ? file.$id : undefined,
       });
@@ -38,12 +38,12 @@ function PostForm({ post }) {
         navigate(`/post/${dbPost.$id}`);
       }
     } else {
-      const file = await appwriteService.uploadFile(data.image[0]);
+      const file = await service.uploadFile(data.image[0]);
 
       if (file) {
         const fileId = file.$id;
         data.featuredImage = fileId;
-        const dbPost = await appwriteService.createPost({
+        const dbPost = await service.createPost({
           ...data,
           userId: userData.$id,
         });
@@ -69,7 +69,7 @@ function PostForm({ post }) {
     React.useEffect(() => {
         const subscription = watch((value, { name }) => {
             if (name === "title") {
-                setValue("ID", slugTransform(value.title), { shouldValidate: true });
+                setValue("slug", slugTransform(value.title), { shouldValidate: true });
             }
         });
 
@@ -87,12 +87,12 @@ function PostForm({ post }) {
                     {...register("title", { required: true })}
                 />
                 <Input
-                    label="ID :"
-                    placeholder="ID"
+                    label="slug :"
+                    placeholder="slug"
                     className="mb-4"
-                    {...register("ID", { required: true })}
+                    {...register("slug", { required: true })}
                     onInput={(e) => {
-                        setValue("ID", slugTransform(e.currentTarget.value), { shouldValidate: true });
+                        setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
                     }}
                 />
                 <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
