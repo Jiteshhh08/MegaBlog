@@ -7,10 +7,10 @@ import Container from "./container/Container";
 import LogoutBtn from "./Header/LogoutBtn";
 import Input from "./Input/Input"
 import RTE from "./RTE"
-import Signup from "./Signup";
-import login from "./Login";
+import SignUP from "./Signup";
+import LogIn from "./Login";
 import PostCard from './PostCard'
 import PostForm from './postForm/PostForm'
 import Protected from './AuthLayout'
 
-export {Header, Footer, Logo, Select, Button, Container, LogoutBtn, Input, RTE, Signup, login, PostCard, PostForm, Protected}
+export {Header, Footer, Logo, Select, Button, Container, LogoutBtn, Input, RTE, SignUP, LogIn, PostCard, PostForm, Protected}
