@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import authService from "../appwrite/auth";
 import { useForm } from "react-hook-form";
 
-function login() {
+function LogIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
@@ -15,11 +15,11 @@ function login() {
   const Login = async (data) => {
     setError("");
     try {
-      const session = await authService.login(data);
+      const session = await authService.login(data.email, data.password);
       if (session) {
-        userData = await authService.getCurrentUser();
+        const userData = await authService.getCurrentUser();
         if (userData) dispatch(authLogin(userData));
-        navigate("/");
+        navigate('/');
       }
     } catch (error) {
       setError(error.message);
@@ -49,11 +49,11 @@ function login() {
           </Link>
         </p>
          {error && <p className="text-red-600 mt-8 text-center">{error} </p>}
-         <form onSubmit={handleSubmit(login)} className="mt-8">
+         <form onSubmit={handleSubmit(Login)} className="mt-8">
             <div className="space-y-5">
               <Input
               lable = "Email: "
-              placeHolder = "Enter your email"
+              placeholder = "Enter your email"
               type = "email"
               {...register("email", {
                 required: true,
@@ -64,7 +64,7 @@ function login() {
               />
               <Input
               lable = "Password"
-              placeHolder = "Enter your password"
+              placeholder = "Enter your password"
               type = "password"
               {...register("password", {
                 required: true
@@ -79,4 +79,4 @@ function login() {
   );
 }
 
-export default login;
+export default LogIn;
