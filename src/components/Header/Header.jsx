@@ -40,7 +40,7 @@ function Header() {
       <header className="shadow text-white bg-blue-950">
         <Container>
           <nav className="flex">
-            <div className="mr-4">
+            <div className="mt-2">
               <Link to="/">
                 <Logo width="70px" />
               </Link>
