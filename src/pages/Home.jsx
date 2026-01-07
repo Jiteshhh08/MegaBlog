@@ -8,7 +8,10 @@ function Home() {
 
     const userData = useSelector((state) => state.auth.userData);
     useEffect(() => {
-        if (!userData || !userData.$id) return console.log("No user");
+        if (!userData || !userData.$id){
+            setPosts([])
+            return;
+        }
         service.getPostsByAuthor(userData.$id).then((posts) => {
             if (posts) {
                 setPosts(posts.documents)
@@ -16,7 +19,7 @@ function Home() {
         })
     }, [userData])
   
-    if (posts.length === 0) {
+    if (!userData) {
         return (
             <div className="w-full py-8 mt-4 text-center">
                 <Container>
