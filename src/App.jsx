@@ -15,7 +15,7 @@ function App() {
     authService.getCurrentUser()
     .then((userData) => {
       if (userData) {
-        dispatch(login({userData}))
+        dispatch(login(userData))
       }
       else{
         dispatch(logout())
@@ -23,6 +23,14 @@ function App() {
     }
   ).finally(() => setLoading(false))
   }, []);
+
+   if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-4xl">Loading...</p>
+      </div>
+    )
+  }
 
   return (
     <>

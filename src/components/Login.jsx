@@ -12,19 +12,19 @@ function LogIn() {
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState("");
 
-  const Login = async (data) => {
-    setError("");
-    try {
-      const session = await authService.login(data.email, data.password);
-      if (session) {
-        const userData = await authService.getCurrentUser();
-        if (userData) dispatch(authLogin(userData));
-        navigate('/');
-      }
-    } catch (error) {
-      setError(error.message);
-    }
-  };
+const Login = async (data) => {
+  setError("")
+  try {
+    await authService.login(data.email, data.password)
+
+    const userData = await authService.getCurrentUser()
+    dispatch(authLogin(userData))
+
+    navigate("/")
+  } catch (error) {
+    setError(error.message)
+  }
+}
 
   return (
     <div className="flex items-center justify-center w-full">
