@@ -1,17 +1,20 @@
 import React, {useEffect, useState} from 'react'
 import service from "../appwrite/config";
 import {Container, PostCard} from '../components'
+import { useSelector } from 'react-redux';
 
 function Home() {
     const [posts, setPosts] = useState([])
 
+    const userData = useSelector((state) => state.auth.userData);
     useEffect(() => {
-        service.getPosts().then((posts) => {
+        if (!userData || !userData.$id) return console.log("No user");
+        service.getPostsByAuthor(userData.$id).then((posts) => {
             if (posts) {
                 setPosts(posts.documents)
             }
         })
-    }, [])
+    }, [userData])
   
     if (posts.length === 0) {
         return (

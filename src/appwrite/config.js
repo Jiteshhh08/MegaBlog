@@ -83,6 +83,19 @@ export class Service{
             return false
         }
     }
+
+    async getPostsByAuthor(userId) {
+        try {
+            return await this.Databases.listDocuments(
+            conf.appwriteDatabase,
+            conf.appwriteCollectionId,
+            [Query.equal("userId", userId)]
+            )
+        } catch (error) {
+            console.log("Appwrite :: getPostsByAuthor :: error", error)
+            return false
+        }
+    }
     
     async getPosts(querries = [Query.equal("status", "active")]){
         try {
